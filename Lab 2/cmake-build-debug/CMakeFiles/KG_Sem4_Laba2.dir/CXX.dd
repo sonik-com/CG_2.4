@@ -1,0 +1,21 @@
+ninja_dyndep_version = 1.0
+build CMakeFiles\KG_Sem4_Laba2.dir\src\main.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\d3dUtil.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\DirectXApp.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\InputDevice.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\Parser.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\TgaLoader.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\Timer.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\Window.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\GBuffer.cpp.obj: dyndep
+
+build CMakeFiles\KG_Sem4_Laba2.dir\src\RenderingSystem.cpp.obj: dyndep
+
