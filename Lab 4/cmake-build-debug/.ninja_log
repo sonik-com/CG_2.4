@@ -1,0 +1,11 @@
+# ninja log v6
+23	2315	8120511950253879	CMakeFiles/CG_Sem2.dir/src/GBuffer.cpp.obj	be431d13c4a782f5
+18	2327	8120511950202640	CMakeFiles/CG_Sem2.dir/src/RenderingSystem.cpp.obj	5950f59e956b0df5
+34	2512	8120511950356268	CMakeFiles/CG_Sem2.dir/src/DDSTextureLoader.cpp.obj	9b1a4b4147763234
+27	2805	8120511950290892	CMakeFiles/CG_Sem2.dir/src/model_loader.cpp.obj	5d3a54924b0d3369
+2317	2864	8120511973196778	CMakeFiles/CG_Sem2.dir/src/GameTimer.cpp.obj	4025c3a5749dc38c
+39	2928	8120511950414950	CMakeFiles/CG_Sem2.dir/src/d3dUtil.cpp.obj	8fb9dadfaebe130e
+4	2935	8120511950065423	CMakeFiles/CG_Sem2.dir/src/main.cpp.obj	43c7d5db860aeb30
+10	2973	8120511950123217	CMakeFiles/CG_Sem2.dir/src/Window.cpp.obj	c1e9b88c4dc32e43
+14	4183	8120511950163546	CMakeFiles/CG_Sem2.dir/src/DirectXApp.cpp.obj	2ab833520d62da77
+4183	7053	8120511991849595	CG_Sem2.exe	e04d5fa70e43e693

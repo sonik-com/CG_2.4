@@ -1,0 +1,3 @@
+C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/4F0DA~1/LAB4~1/cmake-build-debug/CMakeFiles/CG_Sem2.dir
+C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/4F0DA~1/LAB4~1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/4F0DA~1/LAB4~1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
