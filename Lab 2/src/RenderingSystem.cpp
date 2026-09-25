@@ -334,7 +334,13 @@ void RenderingSystem::LightingPass(
     UploadBuffer<LightConstants>* lightingCB,
     UploadBuffer<CameraConstants>* cameraCB,
     GBuffer* gBuffer,
-    int debugMode)
+    int debugMode,
+    ID3D12PipelineState* orbPSO,
+    ID3D12RootSignature* orbRootSignature,
+    const std::vector<FlyingBulb>* bulbs,
+    const DirectX::XMFLOAT4X4* viewProj,
+    const DirectX::XMFLOAT3& cameraRight,
+    const DirectX::XMFLOAT3& cameraUp)
 {
     mLightingAllocator->Reset();
     mCommandList->Reset(mLightingAllocator.Get(), lightingPSO);
@@ -391,6 +397,50 @@ void RenderingSystem::LightingPass(
             mCommandList->SetGraphicsRootConstantBufferView(1, cbAddr);
 
             mCommandList->DrawInstanced(3, 1, 0, 0);
+        }
+    }
+
+
+    // ===== ЛЕТЯЩИЕ ЛАМПОЧКИ =====
+    // Рисуются после источников света: каждый — маленький густой комок света
+    // (аддитивный билборд, BLEND_ONE/ONE). Свой корневой подписи хватает одного
+    // root-constant блока: матрица вида-проекции, базис камеры и параметры шара.
+    if (bulbs && !bulbs->empty() && orbPSO && orbRootSignature && viewProj)
+    {
+        mCommandList->SetPipelineState(orbPSO);
+        mCommandList->SetGraphicsRootSignature(orbRootSignature);
+
+        const float* vp = &viewProj->m[0][0];
+
+        for (const auto& bulb : *bulbs)
+        {
+            float constants[32] = {};
+
+            for (int i = 0; i < 16; ++i)
+                constants[i] = vp[i];
+
+            constants[16] = cameraRight.x;
+            constants[17] = cameraRight.y;
+            constants[18] = cameraRight.z;
+            constants[19] = BulbSettings::Radius;
+
+            constants[20] = cameraUp.x;
+            constants[21] = cameraUp.y;
+            constants[22] = cameraUp.z;
+            constants[23] = BulbSettings::CoreIntensity;
+
+            constants[24] = bulb.Position.x;
+            constants[25] = bulb.Position.y;
+            constants[26] = bulb.Position.z;
+            constants[27] = 0.0f;
+
+            constants[28] = BulbSettings::Color[0];
+            constants[29] = BulbSettings::Color[1];
+            constants[30] = BulbSettings::Color[2];
+            constants[31] = 0.0f;
+
+            mCommandList->SetGraphicsRoot32BitConstants(0, 32, constants, 0);
+            mCommandList->DrawInstanced(6, 1, 0, 0);
         }
     }
 

@@ -80,6 +80,37 @@ struct Light
     }
 };
 
+// ===== Летящие лампочки (клавиша L) =====
+
+// Настройки лампочек собраны в одном месте, чтобы их было просто менять.
+namespace BulbSettings
+{
+    // Parser.cpp масштабирует Sponza (OBJ_SCALE = 0.01) и центрирует её по
+    // габаритам, поэтому единицы сцены — метры: коробка модели 37.2 x 15.6 x 22.9.
+    const float BelowCameraOffset = 0.40f;  // на сколько ниже камеры рождается лампочка
+    const float Radius = 0.05f;             // радиус светового шара лампочки
+    const float CoreIntensity = 2.2f;       // яркость ядра шара
+    const float Color[3] = { 1.0f, 0.93f, 0.78f };  // тёплый свет лампочки
+    const float Speed = 4.0f;               // скорость полёта, единиц в секунду
+    const float Interval = 0.8f;            // раз в сколько секунд рождается новая лампочка
+    const float LightIntensity = 0.7f;      // яркость лампочки как источника света сцены
+    const float LightRange = 4.0f;          // радиус, на который лампочка освещает сцену
+    const float FallbackDistance = 25.0f;   // если луч не задел модель — лампочка улетает и гаснет
+}
+
+// «Лампочка» — маленький светящийся шар, который вылетает из-под камеры.
+// Летит строго прямо: направление задаётся один раз при рождении и не меняется.
+// MaxDistance — расстояние до первой поверхности Sponza: пролетев его, лампочка
+// мгновенно исчезает (никакого затухания).
+struct FlyingBulb
+{
+    XMFLOAT3 Position = XMFLOAT3(0, 0, 0);
+    XMFLOAT3 Direction = XMFLOAT3(0, 0, 1);
+    float Speed = BulbSettings::Speed;
+    float Distance = 0.0f;      // сколько уже пролетела
+    float MaxDistance = 10.0f;  // сколько ей отведено до касания модели
+};
+
 // Структура для Constant Buffer
 struct LightConstants
 {

@@ -26,6 +26,13 @@
 using Microsoft::WRL::ComPtr;
 using namespace DirectX;
 
+// AABB одного треугольника Sponza — быстрый отсев перед точной проверкой луча.
+struct TriangleBounds
+{
+    float MinX, MinY, MinZ;
+    float MaxX, MaxY, MaxZ;
+};
+
 class DirectXApp {
 public:
     DirectXApp(Window& window);
@@ -58,6 +65,37 @@ public:
 
 private:
     std::vector<Light> mLights;
+
+    // ===== ЛЕТЯЩИЕ ЛАМПОЧКИ (клавиша L) =====
+    std::vector<FlyingBulb> mFlyingBulbs;   // лампочки, которые сейчас летят
+    std::vector<Light> mRenderLights;       // mLights + лампочки: список для светового прохода
+    bool mSpawnBulbs = false;               // вылетают ли лампочки (включается клавишей L)
+    float mBulbSpawnTimer = 0.0f;           // время, накопленное до следующей лампочки
+
+    // Базис камеры: из него берётся направление полёта и ориентация билборда лампочки.
+    XMFLOAT3 mCamRight = XMFLOAT3(1, 0, 0);
+    XMFLOAT3 mCamUp = XMFLOAT3(0, 1, 0);
+    XMFLOAT3 mCamForward = XMFLOAT3(0, 0, 1);
+
+    // CPU-копия геометрии Sponza: по ней ищется точка касания лампочки с моделью.
+    std::vector<XMFLOAT3> mCollisionPositions;
+    std::vector<uint32_t> mCollisionIndices;
+    std::vector<TriangleBounds> mTriangleBounds;
+    XMFLOAT3 mSceneBoundsMin = XMFLOAT3(0, 0, 0);
+    XMFLOAT3 mSceneBoundsMax = XMFLOAT3(0, 0, 0);
+
+    // Результат последнего поиска касания: если камера не двигалась, луч тот же
+    // самый и по треугольникам можно не перебирать.
+    XMFLOAT3 mCachedRayOrigin = XMFLOAT3(0, 0, 0);
+    XMFLOAT3 mCachedRayDir = XMFLOAT3(0, 0, 0);
+    float mCachedRayHit = -1.0f;
+    bool mCachedRayValid = false;
+
+    ComPtr<ID3D12RootSignature> mOrbRootSignature;
+    ComPtr<ID3D12PipelineState> mOrbPSO;
+    ComPtr<ID3DBlob> mvsOrbByteCode = nullptr;
+    ComPtr<ID3DBlob> mpsOrbByteCode = nullptr;
+
     std::unique_ptr<RenderingSystem> mRenderingSystem;
     std::unique_ptr<UploadBuffer<LightConstants>> mLightingCB;
 
@@ -171,6 +209,13 @@ private:
 
     void BuildInputLayout();
     void BuildShaders();
+    void BuildOrbResources();
+    void BuildCollisionData(
+        const std::vector<Vertex>& vertices,
+        const std::vector<uint32_t>& indices);
+    float RaycastSceneDistance(const DirectX::XMFLOAT3& origin, const DirectX::XMFLOAT3& dir);
+    void UpdateFlyingBulbs(float dt, DirectX::FXMVECTOR pos, DirectX::FXMVECTOR forwardVec,
+                           DirectX::FXMVECTOR upVec);
     void BuildConstantBuffer();
     void BuildRootSignature();
     void BuildPSO();

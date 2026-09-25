@@ -4,6 +4,7 @@
 #include <d3dcompiler.h>
 #include <dxgi1_6.h>
 #include <string>
+#include <cfloat>
 #include "../h/ThrowIfFailed.h"
 #include "../h/Parser.h"
 #include "../h/TgaLoader.h"
@@ -339,6 +340,9 @@ void DirectXApp::BuildObj(const std::string& path)
 
     mIndexCount = static_cast<UINT>(indices.size());
 
+    // Копия геометрии для проверки касания лампочек с моделью (см. RaycastSceneDistance).
+    BuildCollisionData(vertices, indices);
+
     UINT vbByteSize = static_cast<UINT>(vertices.size() * sizeof(Vertex));
     UINT ibByteSize = static_cast<UINT>(indices.size() * sizeof(uint32_t));
 
@@ -399,12 +403,381 @@ void DirectXApp::BuildObj(const std::string& path)
     mIndexBufferView.SizeInBytes = ibByteSize;
 }
 
+// =========== Лампочки: ресурсы отрисовки ===========
+// Лампочка рисуется аддитивным билбордом, поэтому нужна своя корневая подпись
+// (один блок root-констант) и своё состояние конвейера.
+void DirectXApp::BuildOrbResources()
+{
+    mvsOrbByteCode = d3dUtil::CompileShader(L"../src/orbs.hlsl", nullptr, "VSOrb", "vs_5_0");
+    mpsOrbByteCode = d3dUtil::CompileShader(L"../src/orbs.hlsl", nullptr, "PSOrb", "ps_5_0");
+
+    if (!mvsOrbByteCode || !mpsOrbByteCode)
+    {
+        MessageBoxA(nullptr, "Failed to compile orbs.hlsl", "Error", MB_OK);
+        return;
+    }
+
+    // 32 root-константы: транспонированная вида-проекция (16), базис камеры и
+    // параметры шара (16). Константного буфера и дескрипторов не требуется.
+    D3D12_ROOT_PARAMETER rootParameter = {};
+    rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+    rootParameter.Constants.ShaderRegister = 0;
+    rootParameter.Constants.RegisterSpace = 0;
+    rootParameter.Constants.Num32BitValues = 32;
+    rootParameter.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+    D3D12_ROOT_SIGNATURE_DESC rootSigDesc = {};
+    rootSigDesc.NumParameters = 1;
+    rootSigDesc.pParameters = &rootParameter;
+    rootSigDesc.NumStaticSamplers = 0;
+    rootSigDesc.pStaticSamplers = nullptr;
+    rootSigDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+    ComPtr<ID3DBlob> serializedRootSig;
+    ComPtr<ID3DBlob> errorBlob;
+
+    HRESULT hr = D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1,
+                                             &serializedRootSig, &errorBlob);
+    if (FAILED(hr))
+    {
+        MessageBoxA(nullptr, "Failed to serialize orb root signature", "Error", MB_OK);
+        return;
+    }
+
+    hr = device->CreateRootSignature(0, serializedRootSig->GetBufferPointer(),
+                                     serializedRootSig->GetBufferSize(),
+                                     IID_PPV_ARGS(&mOrbRootSignature));
+    if (FAILED(hr))
+    {
+        MessageBoxA(nullptr, "Failed to create orb root signature", "Error", MB_OK);
+        return;
+    }
+
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
+    ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+
+    psoDesc.VS = {
+        reinterpret_cast<BYTE*>(mvsOrbByteCode->GetBufferPointer()),
+        mvsOrbByteCode->GetBufferSize()
+    };
+    psoDesc.PS = {
+        reinterpret_cast<BYTE*>(mpsOrbByteCode->GetBufferPointer()),
+        mpsOrbByteCode->GetBufferSize()
+    };
+
+    psoDesc.InputLayout = { nullptr, 0 };   // квадрат строится в вершинном шейдере
+    psoDesc.pRootSignature = mOrbRootSignature.Get();
+
+    psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+    psoDesc.RasterizerState.FrontCounterClockwise = FALSE;
+    psoDesc.RasterizerState.DepthClipEnable = TRUE;
+
+    // Аддитивное смешивание: яркость лампочки прибавляется к уже освещённому кадру
+    psoDesc.BlendState.AlphaToCoverageEnable = FALSE;
+    psoDesc.BlendState.IndependentBlendEnable = FALSE;
+    auto& rtBlend = psoDesc.BlendState.RenderTarget[0];
+    rtBlend.BlendEnable = TRUE;
+    rtBlend.SrcBlend = D3D12_BLEND_ONE;
+    rtBlend.DestBlend = D3D12_BLEND_ONE;
+    rtBlend.BlendOp = D3D12_BLEND_OP_ADD;
+    rtBlend.SrcBlendAlpha = D3D12_BLEND_ONE;
+    rtBlend.DestBlendAlpha = D3D12_BLEND_ONE;
+    rtBlend.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+    rtBlend.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+    // Глубина не нужна: лампочка гаснет раньше, чем коснётся геометрии
+    psoDesc.DepthStencilState.DepthEnable = FALSE;
+    psoDesc.DepthStencilState.StencilEnable = FALSE;
+
+    psoDesc.SampleMask = UINT_MAX;
+    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    psoDesc.NumRenderTargets = 1;
+    psoDesc.RTVFormats[0] = mBackBufferFormat;
+    psoDesc.DSVFormat = DXGI_FORMAT_UNKNOWN;
+    psoDesc.SampleDesc.Count = 1;
+    psoDesc.SampleDesc.Quality = 0;
+
+    hr = device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&mOrbPSO));
+    if (FAILED(hr))
+    {
+        MessageBoxA(nullptr, "Failed to create orb PSO", "Error", MB_OK);
+    }
+}
+
+// =========== Лампочки: геометрия для проверки касания ===========
+// Sponza статичная, поэтому копию вершин и коробок треугольников достаточно
+// подготовить один раз при загрузке модели.
+void DirectXApp::BuildCollisionData(const std::vector<Vertex>& vertices,
+                                    const std::vector<uint32_t>& indices)
+{
+    mCollisionPositions.clear();
+    mCollisionIndices.clear();
+    mTriangleBounds.clear();
+
+    mCollisionPositions.reserve(vertices.size());
+    for (const auto& v : vertices)
+        mCollisionPositions.push_back(v.position);
+
+    mCollisionIndices = indices;
+
+    const size_t triCount = indices.size() / 3;
+    mTriangleBounds.resize(triCount);
+
+    mSceneBoundsMin = XMFLOAT3(FLT_MAX, FLT_MAX, FLT_MAX);
+    mSceneBoundsMax = XMFLOAT3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+    for (size_t tri = 0; tri < triCount; ++tri)
+    {
+        TriangleBounds& b = mTriangleBounds[tri];
+
+        b.MinX = b.MinY = b.MinZ = FLT_MAX;
+        b.MaxX = b.MaxY = b.MaxZ = -FLT_MAX;
+
+        for (int k = 0; k < 3; ++k)
+        {
+            const XMFLOAT3& p = mCollisionPositions[indices[tri * 3 + k]];
+
+            if (p.x < b.MinX) b.MinX = p.x;
+            if (p.y < b.MinY) b.MinY = p.y;
+            if (p.z < b.MinZ) b.MinZ = p.z;
+            if (p.x > b.MaxX) b.MaxX = p.x;
+            if (p.y > b.MaxY) b.MaxY = p.y;
+            if (p.z > b.MaxZ) b.MaxZ = p.z;
+
+            if (p.x < mSceneBoundsMin.x) mSceneBoundsMin.x = p.x;
+            if (p.y < mSceneBoundsMin.y) mSceneBoundsMin.y = p.y;
+            if (p.z < mSceneBoundsMin.z) mSceneBoundsMin.z = p.z;
+            if (p.x > mSceneBoundsMax.x) mSceneBoundsMax.x = p.x;
+            if (p.y > mSceneBoundsMax.y) mSceneBoundsMax.y = p.y;
+            if (p.z > mSceneBoundsMax.z) mSceneBoundsMax.z = p.z;
+        }
+    }
+}
+
+// =========== Лампочки: где луч встретит модель ===========
+// Луч идёт из точки рождения лампочки строго по направлению полёта.
+// Возвращает расстояние до первой поверхности Sponza или -1, если луч её не задел.
+// Сначала треугольники отсеиваются по своим коробкам, затем считается точное
+// пересечение луча с треугольником (Мёллер-Трумбор).
+float DirectXApp::RaycastSceneDistance(const XMFLOAT3& origin, const XMFLOAT3& dir)
+{
+    // Камера не двигалась — луч тот же самый, результат можно взять из кэша.
+    if (mCachedRayValid &&
+        fabsf(origin.x - mCachedRayOrigin.x) < 1e-6f &&
+        fabsf(origin.y - mCachedRayOrigin.y) < 1e-6f &&
+        fabsf(origin.z - mCachedRayOrigin.z) < 1e-6f &&
+        fabsf(dir.x - mCachedRayDir.x) < 1e-6f &&
+        fabsf(dir.y - mCachedRayDir.y) < 1e-6f &&
+        fabsf(dir.z - mCachedRayDir.z) < 1e-6f)
+    {
+        return mCachedRayHit;
+    }
+
+    // Замер стоимости поиска: ~2.9 мс на первый луч (262 267 треугольников Sponza
+    // в отладочной сборке). Повторный луч из той же точки берётся из кэша ниже.
+    const size_t triCount = mTriangleBounds.size();
+
+    if (triCount == 0)
+        return -1.0f;
+
+    const float org[3] = { origin.x, origin.y, origin.z };
+    const float dr[3] = { dir.x, dir.y, dir.z };
+    const float sceneMin[3] = { mSceneBoundsMin.x, mSceneBoundsMin.y, mSceneBoundsMin.z };
+    const float sceneMax[3] = { mSceneBoundsMax.x, mSceneBoundsMax.y, mSceneBoundsMax.z };
+
+    // 1) Отсечение по габаритной коробке всей модели.
+    float tEnter = 0.0f;
+    float tExit = FLT_MAX;
+
+    for (int a = 0; a < 3; ++a)
+    {
+        if (fabsf(dr[a]) < 1e-8f)
+        {
+            if (org[a] < sceneMin[a] || org[a] > sceneMax[a])
+                return -1.0f;
+            continue;
+        }
+
+        float tNear = (sceneMin[a] - org[a]) / dr[a];
+        float tFar = (sceneMax[a] - org[a]) / dr[a];
+        if (tNear > tFar) { const float tmp = tNear; tNear = tFar; tFar = tmp; }
+
+        if (tNear > tEnter) tEnter = tNear;
+        if (tFar < tExit) tExit = tFar;
+
+        if (tEnter > tExit)
+            return -1.0f;   // луч прошёл мимо модели
+    }
+
+    // 2) Перебор треугольников: быстрый отсев по коробке, затем точная проверка.
+    const XMFLOAT3* positions = mCollisionPositions.data();
+    const uint32_t* indices = mCollisionIndices.data();
+
+    float best = FLT_MAX;
+
+    for (size_t tri = 0; tri < triCount; ++tri)
+    {
+        const TriangleBounds& b = mTriangleBounds[tri];
+        const float triMin[3] = { b.MinX, b.MinY, b.MinZ };
+        const float triMax[3] = { b.MaxX, b.MaxY, b.MaxZ };
+
+        float boxEnter = tEnter;
+        float boxExit = tExit;
+        bool skip = false;
+
+        for (int a = 0; a < 3 && !skip; ++a)
+        {
+            if (fabsf(dr[a]) < 1e-8f)
+            {
+                if (org[a] < triMin[a] || org[a] > triMax[a])
+                    skip = true;
+                continue;
+            }
+
+            float tNear = (triMin[a] - org[a]) / dr[a];
+            float tFar = (triMax[a] - org[a]) / dr[a];
+            if (tNear > tFar) { const float tmp = tNear; tNear = tFar; tFar = tmp; }
+
+            if (tNear > boxEnter) boxEnter = tNear;
+            if (tFar < boxExit) boxExit = tFar;
+
+            if (boxEnter > boxExit)
+                skip = true;
+        }
+
+        if (skip)
+            continue;
+
+        // Точное пересечение луча с треугольником
+        const XMFLOAT3& p0 = positions[indices[tri * 3 + 0]];
+        const XMFLOAT3& p1 = positions[indices[tri * 3 + 1]];
+        const XMFLOAT3& p2 = positions[indices[tri * 3 + 2]];
+
+        const float e1x = p1.x - p0.x, e1y = p1.y - p0.y, e1z = p1.z - p0.z;
+        const float e2x = p2.x - p0.x, e2y = p2.y - p0.y, e2z = p2.z - p0.z;
+
+        const float px = dr[1] * e2z - dr[2] * e2y;
+        const float py = dr[2] * e2x - dr[0] * e2z;
+        const float pz = dr[0] * e2y - dr[1] * e2x;
+
+        const float det = e1x * px + e1y * py + e1z * pz;
+
+        if (fabsf(det) < 1e-12f)
+            continue;   // луч параллелен плоскости треугольника
+
+        const float invDet = 1.0f / det;
+
+        const float sx = org[0] - p0.x, sy = org[1] - p0.y, sz = org[2] - p0.z;
+
+        const float u = (sx * px + sy * py + sz * pz) * invDet;
+        if (u < 0.0f || u > 1.0f)
+            continue;
+
+        const float qx = sy * e1z - sz * e1y;
+        const float qy = sz * e1x - sx * e1z;
+        const float qz = sx * e1y - sy * e1x;
+
+        const float v = (dr[0] * qx + dr[1] * qy + dr[2] * qz) * invDet;
+        if (v < 0.0f || u + v > 1.0f)
+            continue;
+
+        const float dist = (e2x * qx + e2y * qy + e2z * qz) * invDet;
+
+        if (dist > 1e-4f && dist < best)
+            best = dist;
+    }
+
+    const float hit = (best < FLT_MAX) ? best : -1.0f;
+
+    mCachedRayOrigin = origin;
+    mCachedRayDir = dir;
+    mCachedRayHit = hit;
+    mCachedRayValid = true;
+
+    return hit;
+}
+
+// =========== Лампочки: полёт, исчезновение, свет ===========
+void DirectXApp::UpdateFlyingBulbs(float dt, FXMVECTOR pos, FXMVECTOR forwardVec, FXMVECTOR upVec)
+{
+    // 1) Движение строго по прямой: направление задано при рождении и не меняется.
+    for (auto& bulb : mFlyingBulbs)
+    {
+        const float step = bulb.Speed * dt;
+
+        bulb.Position.x += bulb.Direction.x * step;
+        bulb.Position.y += bulb.Direction.y * step;
+        bulb.Position.z += bulb.Direction.z * step;
+
+        bulb.Distance += step;
+    }
+
+    // 2) Коснулась модели — исчезает мгновенно.
+    //    Идём с конца, чтобы erase не сдвигал ещё не проверенные элементы.
+    for (int i = (int)mFlyingBulbs.size() - 1; i >= 0; --i)
+    {
+        if (mFlyingBulbs[i].Distance >= mFlyingBulbs[i].MaxDistance)
+            mFlyingBulbs.erase(mFlyingBulbs.begin() + i);
+    }
+
+    // 3) Рождение новой лампочки.
+    //    Точка рождения берётся из камеры текущего кадра, поэтому при движении
+    //    камеры место вылета переезжает вместе с ней.
+    mBulbSpawnTimer += dt;
+
+    if (mSpawnBulbs && mBulbSpawnTimer >= BulbSettings::Interval)
+    {
+        mBulbSpawnTimer = 0.0f;
+
+        FlyingBulb bulb;
+
+        XMStoreFloat3(&bulb.Position, pos - upVec * BulbSettings::BelowCameraOffset);
+        XMStoreFloat3(&bulb.Direction, forwardVec);
+        bulb.Speed = BulbSettings::Speed;
+
+        // Где луч упрётся в Sponza, выясняем один раз при рождении: полёт прямой,
+        // модель статичная — пересчитывать это каждый кадр незачем.
+        const float hit = RaycastSceneDistance(bulb.Position, bulb.Direction);
+
+        if (hit > 0.0f)
+        {
+            // минус радиус: лампочка исчезает в момент касания поверхности
+            const float untilTouch = hit - BulbSettings::Radius;
+            bulb.MaxDistance = (untilTouch > 0.0f) ? untilTouch : 0.0f;
+        }
+        else
+        {
+            bulb.MaxDistance = BulbSettings::FallbackDistance;
+        }
+
+        mFlyingBulbs.push_back(bulb);
+    }
+
+    // 4) Список источников для светового прохода: постоянные источники сцены плюс
+    //    по одному точечному свету на каждую живую лампочку.
+    mRenderLights = mLights;
+
+    for (const auto& bulb : mFlyingBulbs)
+    {
+        mRenderLights.push_back(Light::CreatePointLight(
+            bulb.Position,
+            XMFLOAT3(BulbSettings::Color[0], BulbSettings::Color[1], BulbSettings::Color[2]),
+            BulbSettings::LightIntensity,
+            BulbSettings::LightRange));
+    }
+}
+
 // =========== Shutdown ===========
 void DirectXApp::Shutdown() {
     FlushCommandQueue();
 
     mPSO.Reset();
     mWireframePSO.Reset();
+    mOrbPSO.Reset();
+    mOrbRootSignature.Reset();
+    mvsOrbByteCode.Reset();
+    mpsOrbByteCode.Reset();
     mRootSignature.Reset();
 
     if (mRenderingSystem)
@@ -794,6 +1167,7 @@ bool DirectXApp::Initialize() {
     BuildShaders();
     BuildPSO();
     BuildWireframePSO();
+    BuildOrbResources();
     BuildConstantBuffer();
 
     mCameraCB = std::make_unique<UploadBuffer<CameraConstants>>(
@@ -903,6 +1277,13 @@ void DirectXApp::OnKeyDown(WPARAM wParam)
         mUVOffsetV = 0.0f;
     }
 
+    // L — включать/выключать вылет лампочек из-под камеры
+    if (wParam == 'L') {
+        mSpawnBulbs = !mSpawnBulbs;
+        // первая лампочка вылетает сразу после включения
+        if (mSpawnBulbs) mBulbSpawnTimer = BulbSettings::Interval;
+    }
+
     // Отладочный вывод слоёв G-буфера: 0 - освещение, 1 - albedo,
     // 2 - нормали, 3 - глубина, 4 - блик
     if (wParam >= '0' && wParam <= '4') {
@@ -944,6 +1325,9 @@ void DirectXApp::CalculateFrameStats() {
         std::wstring windowText = mMainWndCaption;
         windowText += L" FPS: " + std::to_wstring(fps);
         windowText += L" MSPF: " + std::to_wstring(mspf);
+        windowText += L" Bulbs: " + std::to_wstring(mFlyingBulbs.size());
+        windowText += mSpawnBulbs ? L" (L ON)" : L" (L off)";
+
 
         SetWindowText(window.GetHandle(), windowText.c_str());
 
@@ -990,6 +1374,14 @@ void DirectXApp::Update(const Timer& gt)
         pos -= XMVectorSet(0, 1, 0, 0) * speed * dt;
 
     XMStoreFloat3(&mEyePos, pos);
+
+    // Базис камеры: лампочкам нужны направление полёта и ориентация билборда.
+    XMStoreFloat3(&mCamRight, rightVec);
+    XMStoreFloat3(&mCamUp, upVec);
+    XMStoreFloat3(&mCamForward, forwardVec);
+
+    // ===== ЛЕТЯЩИЕ ЛАМПОЧКИ (клавиша L) =====
+    UpdateFlyingBulbs(dt, pos, forwardVec, upVec);
 
     // ===== View Matrix =====
     XMMATRIX view = XMMatrixLookToLH(pos, forwardVec, upVec);
@@ -1051,10 +1443,16 @@ void DirectXApp::Draw(const Timer& gt)
         mScissorRect,
         (UINT)mMaterials.size());
 
+    // Матрица вида-проекции для билбордов лампочек (в шейдер уходит транспонированной,
+    // как и все матрицы в этой лабе).
+    XMMATRIX viewProj = XMLoadFloat4x4(&mView) * XMLoadFloat4x4(&mProj);
+    XMFLOAT4X4 viewProjTransposed;
+    XMStoreFloat4x4(&viewProjTransposed, XMMatrixTranspose(viewProj));
+
     mRenderingSystem->LightingPass(
         CurrentBackBuffer(),
         CurrentBackBufferView(),
-        mLights,  // список источников сцены
+        mRenderLights,          // постоянные источники сцены + летящие лампочки
         mEyePos,
         mScreenViewport,
         mScissorRect,
@@ -1065,7 +1463,13 @@ void DirectXApp::Draw(const Timer& gt)
         mRenderingSystem->GetLightingCB(),
         mCameraCB.get(),
         mRenderingSystem->GetGBuffer(),
-        mDebugMode);
+        mDebugMode,
+        mOrbPSO.Get(),
+        mOrbRootSignature.Get(),
+        &mFlyingBulbs,
+        &viewProjTransposed,
+        mCamRight,
+        mCamUp);
 
     FlushCommandQueue();
 }

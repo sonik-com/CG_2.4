@@ -62,7 +62,14 @@ public:
         UploadBuffer<LightConstants>* lightingCB,
         UploadBuffer<CameraConstants>* cameraCB,
         GBuffer* gBuffer,
-        int debugMode = 0);
+        int debugMode = 0,
+        // Лампочки рисуются в том же проходе, что и свет: после источников.
+        ID3D12PipelineState* orbPSO = nullptr,
+        ID3D12RootSignature* orbRootSignature = nullptr,
+        const std::vector<FlyingBulb>* bulbs = nullptr,
+        const DirectX::XMFLOAT4X4* viewProj = nullptr,
+        const DirectX::XMFLOAT3& cameraRight = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f),
+        const DirectX::XMFLOAT3& cameraUp = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f));
 
     void Shutdown();
     void FlushCommandQueue();

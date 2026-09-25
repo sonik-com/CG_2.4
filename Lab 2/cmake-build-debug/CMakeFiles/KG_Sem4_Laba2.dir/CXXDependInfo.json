@@ -6,67 +6,67 @@
 	"config" : "Debug",
 	"cxx-modules" : {},
 	"database-info" : null,
-	"dir-cur-bld" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug",
-	"dir-cur-src" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1",
-	"dir-top-bld" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug",
-	"dir-top-src" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1",
+	"dir-cur-bld" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug",
+	"dir-cur-src" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1",
+	"dir-top-bld" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug",
+	"dir-top-src" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1",
 	"exports" : [],
 	"forward-modules-from-target-dirs" : [],
 	"include-dirs" : [],
 	"language" : "CXX",
 	"linked-target-dirs" : [],
-	"module-dir" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/KG_Sem4_Laba2.dir",
+	"module-dir" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/KG_Sem4_Laba2.dir",
 	"sources" : 
 	{
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/DirectXApp.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/DirectXApp.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/DirectXApp.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/GBuffer.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/GBuffer.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/GBuffer.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/InputDevice.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/InputDevice.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/InputDevice.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/Parser.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/Parser.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/Parser.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/RenderingSystem.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/RenderingSystem.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/RenderingSystem.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/TgaLoader.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/TgaLoader.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/TgaLoader.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/Timer.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/Timer.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/Timer.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/Window.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/Window.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/Window.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/d3dUtil.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/d3dUtil.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/d3dUtil.cpp"
 		},
 		"CMakeFiles/KG_Sem4_Laba2.dir/src/main.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/src/main.cpp"
+			"source" : "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/src/main.cpp"
 		}
 	}
 }

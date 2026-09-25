@@ -116,6 +116,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -196,6 +199,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -268,7 +274,7 @@ events:
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
       
       The C compiler identification is MSVC, found in:
-        C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/4.1.2/CompilerIdC/CMakeCCompilerId.exe
+        C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/4.1.2/CompilerIdC/CMakeCCompilerId.exe
       
   -
     kind: "message-v1"
@@ -280,7 +286,7 @@ events:
     message: |
       Detecting C compiler /showIncludes prefix:
         main.c
-        Примечание: включение файла:  C:\\Users\\sofya\\OneDrive\\Desktop\\hermes\\комп графика\\лабораторная 2\\KG_Sem4_Laba2\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
+        Примечание: включение файла:  C:\\Users\\sofya\\OneDrive\\Desktop\\hermes\\комп графика\\лабораторная 2\\Lab 2\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
         
       Found prefix "Примечание: включение файла:  "
   -
@@ -381,6 +387,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -656,6 +665,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -783,6 +795,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -934,6 +949,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -1061,6 +1079,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -1151,6 +1172,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -1231,6 +1255,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -1303,7 +1330,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
       
       The CXX compiler identification is MSVC, found in:
-        C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/4.1.2/CompilerIdCXX/CMakeCXXCompilerId.exe
+        C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/4.1.2/CompilerIdCXX/CMakeCXXCompilerId.exe
       
   -
     kind: "message-v1"
@@ -1315,7 +1342,7 @@ events:
     message: |
       Detecting CXX compiler /showIncludes prefix:
         main.c
-        Примечание: включение файла:  C:\\Users\\sofya\\OneDrive\\Desktop\\hermes\\комп графика\\лабораторная 2\\KG_Sem4_Laba2\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
+        Примечание: включение файла:  C:\\Users\\sofya\\OneDrive\\Desktop\\hermes\\комп графика\\лабораторная 2\\Lab 2\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
         
       Found prefix "Примечание: включение файла:  "
   -
@@ -1562,6 +1589,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -1728,6 +1758,9 @@ events:
         - "C:\\Program Files\\Git\\mingw64\\bin"
         - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\bin"
+        - "C:\\Program Files\\Git\\mingw64\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
+        - "C:\\Program Files\\Git\\usr\\bin"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\venv\\Scripts"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\python\\node"
         - "C:\\Users\\sofya\\.hermes-web-ui\\desktop-runtime\\hermes\\0.21.3\\win-x64\\node"
@@ -1774,8 +1807,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-82y2kz"
-      binary: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-82y2kz"
+      source: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-mt6uvq"
+      binary: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-mt6uvq"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -1784,11 +1817,11 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-82y2kz'
+        Change Dir: 'C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-mt6uvq'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2025.3.1/bin/ninja/win/x64/ninja.exe" -v cmTC_31e84
-        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_31e84.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_31e84.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_31e84.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_31e84.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_31e84.exe /implib:cmTC_31e84.lib /pdb:cmTC_31e84.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2025.3.1/bin/ninja/win/x64/ninja.exe" -v cmTC_009c7
+        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_009c7.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_009c7.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"
+        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_009c7.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_009c7.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_009c7.exe /implib:cmTC_009c7.lib /pdb:cmTC_009c7.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -1828,8 +1861,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-shf0lu"
-      binary: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-shf0lu"
+      source: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-uzm2w8"
+      binary: "C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-uzm2w8"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -1839,11 +1872,11 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/KG_SEM~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-shf0lu'
+        Change Dir: 'C:/Users/sofya/OneDrive/Desktop/hermes/4910~1/29B20~1/LAB2~1/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-uzm2w8'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2025.3.1/bin/ninja/win/x64/ninja.exe" -v cmTC_0edb7
-        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_0edb7.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_0edb7.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_0edb7.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_0edb7.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_0edb7.exe /implib:cmTC_0edb7.lib /pdb:cmTC_0edb7.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2025.3.1/bin/ninja/win/x64/ninja.exe" -v cmTC_97b39
+        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_97b39.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_97b39.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2025.3.1\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\\cmTC_97b39.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_97b39.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_97b39.exe /implib:cmTC_97b39.lib /pdb:cmTC_97b39.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
